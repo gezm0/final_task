@@ -23,13 +23,13 @@ head_html = '''
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>Articles</title>
 </head>
-<body>
+<body bgcolor="DarkSlateGray">
 <center>
 <table>
 <tr><h1>Articles</h1><tr>
-<tr><td><center><b>Magazine</b></center></td>
-<td><center><b>Type</b></center></td>
-<td><center><b>Author</b></center></td></b><br>'''
+<tr><th><center><b>Magazine</b></center></th>
+<th><center><b>Type</b></center></th>
+<th><center><b>Author</b></center></th></b><br>'''
 
 foot_html = '''</table></center></body></html>'''
 
@@ -48,7 +48,7 @@ with open('articles.html', 'w') as file:
                 file.write("<tr>")
                 file.write("\n")
                 for x in line:
-                        text = "<th><center>"+str(x)+"</center></th>"+"\n"
+                        text = "<td><center>"+str(x)+"</center></td>"+"\n"
                         file.write(text)
                 file.write("</tr>")
                 file.write("\n")
