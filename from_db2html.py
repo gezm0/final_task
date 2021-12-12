@@ -12,6 +12,7 @@ conn = psycopg2.connect(host='10.0.1.201',
 
 query_file  = 'backup_articles.sql'
 query_result = ()
+result_file = 'articles.html'
 current_datetime = datetime.now()
 cursor = conn.cursor()
 
@@ -31,7 +32,7 @@ head_html = '''
 <th><center><b>Type</b></center></th>
 <th><center><b>Author</b></center></th></b><br>'''
 
-foot_html = '''</table></center></body></html>'''
+foot_html = str(f"</table></center><p align=right>Generated at: {current_datetime}</p></body></html>")
 
 # define query
 #query_db="SELECT magazines.name, article_types.type, author.author FROM magazines, article_types, author, articles WHERE articles.magazines_id=magazines.id AND articles.article_type_id=article_types.id AND articles.author_id=author.id"
@@ -42,13 +43,13 @@ with open(query_file, 'r') as query_sql:
         cursor.execute(query_db)
         query_result = cursor.fetchall()
 
-with open('articles.html', 'w') as file:
+with open(result_file, 'w') as file:
         file.write(head_html)
         for line in query_result:
                 file.write("<tr>")
                 file.write("\n")
-                for x in line:
-                        text = "<td><center>"+str(x)+"</center></td>"+"\n"
+                for item in line:
+                        text = "<td><center>"+str(item)+"</center></td>"+"\n"
                         file.write(text)
                 file.write("</tr>")
                 file.write("\n")
