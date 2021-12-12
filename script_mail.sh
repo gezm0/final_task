@@ -29,7 +29,13 @@ then
 	echo "There are already" ${cur_size} "bytes in" ${files} >> ${body}
 fi
 
-echo "---" >> ${body}
-echo "Generated at" `date` >> ${body}
+if [ -f ${body} ]
+then
+	echo "---" >> ${body}
+	echo "Generated at" `date` >> ${body}
+	mail -s "${subj}" -r ${sender} ${rcpt} < ${body}
+else
+	echo "Nothing to do"
+fi
 
-mail -s "${subj}" -r ${sender} ${rcpt} < ${body}
+rm -f ${body}
