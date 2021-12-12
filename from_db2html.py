@@ -10,6 +10,12 @@ conn = psycopg2.connect(host='10.0.1.201',
                         user='study', 
                         password='test')
 
+if conn:
+        print('All OK')
+else:
+        print('Something wrong with connection')
+        breakpoint
+
 query_file  = 'backup_articles.sql'
 query_result = ()
 result_file = 'articles.html'
