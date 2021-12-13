@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # config start
 pid=/var/run/script_mail.pid		# name for pid file
@@ -10,6 +10,11 @@ body=/tmp/script_mail.tmp		# temporary body of message
 max_files=3				# maximum number of files for trigger
 max_size=1000				# maximum size of files for trigger (in bytes)
 # config end
+
+# run in infinite loop
+
+while true
+do
 
 # make pid file
 echo $$ > ${pid}
@@ -51,3 +56,10 @@ fi
 
 # silently remove temporary body of message
 rm -f ${body}
+
+# repeat every 5min
+sleep 300
+
+# exit from infinite loop
+# by the truth there is no exit except death
+done
