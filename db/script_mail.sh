@@ -9,6 +9,14 @@ subj=$(echo "Report on ${files}")	# subject string for message
 body=/tmp/script_mail.tmp		# temporary body of message
 max_files=3				# maximum number of files for trigger
 max_size=1000				# maximum size of files for trigger (in bytes)
+sleep_time=300				# time between executions of script (in seconds)
+
+### WARNING ###
+# you need to measure YOUR empy directory size for correct work of this script
+# size of empty directory in my case because of metadata
+
+meta_size=3072
+
 # config end
 
 # run in infinite loop
@@ -21,7 +29,13 @@ echo $$ > ${pid}
 
 # count current number of files and size of those files
 cur_num=$(ls -l ${files} | grep "^-" | wc -l)
+
+## and size of those files
+# count size of directory with metadata
 cur_size=$(du -b ${files} | cut -f1)
+
+# substraction size of metadata
+let cur_size="${cur_size} - ${meta_size}"
 
 # check if message temporary body already exists
 if [ -f ${body} ]
@@ -57,8 +71,8 @@ fi
 # silently remove temporary body of message
 rm -f ${body}
 
-# repeat every 5min
-sleep 300
+# repeat every n seconds
+sleep ${sleep_time}
 
 # exit from infinite loop
 # by the truth there is no exit except death
