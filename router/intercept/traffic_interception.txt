@@ -1,0 +1,5 @@
+curl http://web
+tcpdump -i enp0s8 -w insecure.pcap -nn port 80
+
+curl --insecure https://web
+tcpdump -i enp0s8 -w secure.pcap -nn port 443
