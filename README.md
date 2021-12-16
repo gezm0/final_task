@@ -1,12 +1,11 @@
 Scripts for final task
 
 # db
-Contains bash scripts: 
-backup_db.sh for backing database "final_task" from postgresql. 
-backup_articles.sh for backing result of query (external file backup_articles.sql). 
-backup_db.sh.bak is old variant of previous script. 
-iptables_db.sh bash iptables script for db machine.
-script_mail.sh is mailing script (script2 from final task).
+backup_db.sh for backing database "final_task" from postgresql. <br>
+backup_articles.sh for backing result of query (external file backup_articles.sql). <br>
+backup_db.sh.bak is old variant of previous script. <br>
+iptables_db.sh bash iptables script for db machine.<br>
+script_mail.sh is mailing script (script2 from final task).<br>
 
 # router
 "intercept" directory includes two examples of traffic dumps and short description of actions how it works.
