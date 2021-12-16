@@ -32,6 +32,7 @@ ${ipt} -A OUTPUT -o lo -j ACCEPT
 
 # allow ping
 ${ipt} -A INPUT -p icmp -j ACCEPT
+${ipt} -A OUTPUT -p icmp -j ACCEPT
 
 # allow established connections
 ${ipt} -A INPUT -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -52,7 +53,7 @@ ${ipt} -A OUTPUT -p tcp ! --syn -m state --state NEW -j DROP
 
 # allow ssh
 ${ipt} -A INPUT -i ${db} -p tcp --dport 22 -j ACCEPT
-${ipt} -A OUTPUT -i ${db} -p tcp --dport 22 -j ACCEPT
+${ipt} -A OUTPUT -o ${db} -p tcp --dport 22 -j ACCEPT
 
 # allow DNS to router
 ${ipt} -A OUTPUT -d ${rou2db_ip} -p tcp --dport 53 -j ACCEPT
@@ -60,6 +61,9 @@ ${ipt} -A OUTPUT -d ${rou2db_ip} -p udp --dport 53 -j ACCEPT
 
 # allow postgres from web
 ${ipt} -A INPUT -s ${web_ip} -p tcp --dport 5432 -j ACCEPT
+# allow HTTP, HTTPS and pgAdmin to web
+${ipt} -A OUTPUT -d ${web_ip} -p tcp -m multiport --dports 80,443 -j ACCEPT
+${ipt} -A OUTPUT -d ${web_ip} -p tcp --dport 8010 -j ACCEPT
 
 # all logged packets visible at /var/log/messages
 ${ipt} -N block_in
@@ -68,11 +72,11 @@ ${ipt} -N block_fwd
 
 ${ipt} -A INPUT -j block_in
 ${ipt} -A OUTPUT -j block_out
-${ipt} -A FORWARD -j block_fw
+${ipt} -A FORWARD -j block_fwd
 
 ${ipt} -A block_in -j LOG --log-level info --log-prefix "--IN--BLOCK"
 ${ipt} -A block_in -j DROP
 ${ipt} -A block_out -j LOG --log-level info --log-prefix "--OUT--BLOCK"
 ${ipt} -A block_out -j DROP
-${ipt} -A block_fw -j LOG --log-level info --log-prefix "--FW--BLOCK"
-${ipt} -A block_fw -j DROP
+${ipt} -A block_fwd -j LOG --log-level info --log-prefix "--FWD--BLOCK"
+${ipt} -A block_fwd -j DROP
