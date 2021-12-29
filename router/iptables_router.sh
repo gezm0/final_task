@@ -80,6 +80,10 @@ ${ipt} -A OUTPUT -d ${web_ip} -p tcp --dport 8010 -j ACCEPT
 # allow postgres
 ${ipt} -A FORWARD -d ${db_ip} -p tcp --dport 5432 -j ACCEPT
 
+# allow connect to node-exporter on web
+
+${ipt} -A OUTPUT -d ${web_ip} -p tcp --dport 9100 -j ACCEPT
+
 # all logged packets visible at /var/log/messages
 ${ipt} -N block_in
 ${ipt} -N block_out

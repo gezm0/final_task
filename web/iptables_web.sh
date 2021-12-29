@@ -76,6 +76,9 @@ ${ipt} -A OUTPUT -o ${web} -p tcp --dport 3000 -d 192.168.0.1 -j ACCEPT
 # allow connetion to postgres on db
 ${ipt} -A OUTPUT -d ${db_ip} -p tcp --dport 5432 -j ACCEPT 
 
+# allow connection for node-exporter from router
+${ipt} -A INPUT -d ${web_ip} -p tcp --dport 9100 -j ACCEPT
+
 # all logged packets visible at /var/log/messages
 ${ipt} -N block_in
 ${ipt} -N block_out
